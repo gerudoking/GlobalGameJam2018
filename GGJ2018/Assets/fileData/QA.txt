@@ -1,0 +1,16 @@
+3;
+
+What's the capital of Brazil?;
+Brasília;
+Rio de Janeiro;
+Buenos Aires;
+
+The country who unified Italy was...;
+Sardinia-Piedmont;
+The Papal States;
+Venice;
+
+Who formulated the law of gravity?;
+Isaac Newton;
+Henry Ford;
+Steve Jobs
