@@ -10,6 +10,7 @@ public class QuestionAsker : MonoBehaviour {
     public List<Text> questions;
     public List<List<Text>> answers;
     public int numberOfQuestions;
+    public List<int> correctAnswer;
 
     private int maxpoolnumber;
     private List<string> questionPool;
@@ -20,9 +21,10 @@ public class QuestionAsker : MonoBehaviour {
         List<Text> auxlist = new List<Text>();
         questionPool = new List<string>();
         answerPool = new List<List<string>>();
+        correctAnswer = new List<int>();
 
         answers = new List<List<Text>>();
-        for(int i = 0; i < 6; i++) {
+        for(int i = 0; i < 9; i++) {
             Text aux = null;
 
             if (i == 0) {
@@ -50,6 +52,21 @@ public class QuestionAsker : MonoBehaviour {
             }
             if (i == 5) {
                 aux = GameObject.Find("Answer12").transform.Find("Text").GetComponent<Text>();
+                auxlist.Add(aux);
+                answers.Add(auxlist);
+            }
+
+            if (i == 6) {
+                auxlist = new List<Text>();
+                aux = GameObject.Find("Answer20").transform.Find("Text").GetComponent<Text>();
+                auxlist.Add(aux);
+            }
+            if (i == 7) {
+                aux = GameObject.Find("Answer21").transform.Find("Text").GetComponent<Text>();
+                auxlist.Add(aux);
+            }
+            if (i == 8) {
+                aux = GameObject.Find("Answer22").transform.Find("Text").GetComponent<Text>();
                 auxlist.Add(aux);
                 answers.Add(auxlist);
             }
@@ -111,7 +128,7 @@ public class QuestionAsker : MonoBehaviour {
         List<int> markedQuestions = new List<int>();
         int rand0, rand1;
         rand0 = UnityEngine.Random.Range(0, maxpoolnumber);
-        rand1 = UnityEngine.Random.Range(0, maxpoolnumber);
+        rand1 = UnityEngine.Random.Range(0, 3);
         for (int i = 0; i < questions.Count; i++) {
             while (markedQuestions.Contains(rand0)) {
                 print("randomInvalido");
@@ -121,9 +138,12 @@ public class QuestionAsker : MonoBehaviour {
             markedQuestions.Add(rand0);
             for(int j = 0; j < 3; j++) {
                 while (markedAnswers.Contains(rand1))
-                    rand1 = UnityEngine.Random.Range(0, maxpoolnumber);
+                    rand1 = UnityEngine.Random.Range(0, 3);
                 answers[i][j].text = answerPool[rand0][rand1];
                 markedAnswers.Add(rand1);
+                if (answerPool[rand0][rand1] == answerPool[rand0][0]) {
+                    correctAnswer.Add(rand1);
+                }
             }
 
             markedAnswers = new List<int>();

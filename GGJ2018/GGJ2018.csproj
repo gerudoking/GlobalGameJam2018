@@ -283,7 +283,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Activator.cs" />
+    <Compile Include="Assets\Scripts\AnyKey.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\ModulePlacer.cs" />
     <Compile Include="Assets\Scripts\Parallax.cs" />
     <Compile Include="Assets\Scripts\PlayerMove.cs" />

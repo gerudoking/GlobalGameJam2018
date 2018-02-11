@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Block
   - ExtraTime
+  - Overtime
+  - endgame
   layers:
   - Default
   - TransparentFX

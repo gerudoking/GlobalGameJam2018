@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //Class used for the players movement
 public class PlayerMove : MonoBehaviour {
 
+    public float bonusTime = 10;
     public bool isPlayer1;
 
     public float speed;//The players horizontal movement speed
@@ -17,6 +19,8 @@ public class PlayerMove : MonoBehaviour {
     public float timeJump;
     public float blinkSpeed;
     public float startTime;
+
+    public int presentQuestion = 0;
 
     public BoxCollider2D all;
     public BoxCollider2D front;
@@ -207,6 +211,9 @@ public class PlayerMove : MonoBehaviour {
         if(collision.gameObject.tag == "Block") {
             running = true;
         }
+        if(collision.gameObject.tag == "endgame") {
+            SceneManager.LoadScene(0);
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
@@ -221,6 +228,24 @@ public class PlayerMove : MonoBehaviour {
         if(collision.gameObject.tag == "ExtraTime") {
             print("Quiz time!");
             isAnswering = true;
+        }
+        if(collision.gameObject.tag == "Overtime") {
+            if (!IsBlinking()) {
+                int rand = UnityEngine.Random.Range(0, 2);
+                switch (rand) {
+                    case 0:
+                        blinkingToZ = true;
+                        break;
+                    case 1:
+                        blinkingToX = true;
+                        break;
+                    case 2:
+                        blinkingToC = true;
+                        break;
+                }
+                print("Too late!");
+
+            }
         }
     }
 
@@ -257,18 +282,34 @@ public class PlayerMove : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Z) && isAnswering == true && IsBlinking() == false) {
             blinkingToZ = true;
+            if (GetCorrectAnswer(0))
+                GameObject.Find("GameManager").GetComponent<TimeController>().time += bonusTime;
         }
 
         if (Input.GetKeyDown(KeyCode.X) && isAnswering == true && IsBlinking() == false) {
             blinkingToX = true;
+            if (GetCorrectAnswer(1))
+                GameObject.Find("GameManager").GetComponent<TimeController>().time += bonusTime;
         }
 
         if (Input.GetKeyDown(KeyCode.C) && isAnswering == true && IsBlinking() == false) {
             blinkingToC = true;
+            if (GetCorrectAnswer(2))
+                GameObject.Find("GameManager").GetComponent<TimeController>().time += bonusTime;
         }
     }
 
     public bool IsBlinking() {
         return blinkingToZ || blinkingToX || blinkingToC;
+    }
+
+    private bool GetCorrectAnswer(int number) {
+        QuestionAsker asker;
+        asker = GameObject.Find("GameManager").GetComponent<QuestionAsker>();
+
+        if (asker.correctAnswer[questionNumber] == number)
+            return true;
+
+        return false;
     }
 }
